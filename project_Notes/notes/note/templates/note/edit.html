@@ -1,0 +1,66 @@
+{% extends "note/Master.html" %}
+{% load static %}
+{% block content %}
+{% include "note/nav.html"%}
+<div class="container" style="height:100vh;">
+<script>
+    $(function () {
+        $('#add').click(function(){
+            $('#div4').toggle();
+        });
+        $('#closebtn').click(function(){
+            $('#div4').toggle();
+        });
+    });
+    $(function () {
+        $('.vd').click(function(){
+            $('.opt').toggle();
+            });
+    });
+</script>
+<div class="container" style="height:100vh;">
+    <div id="div4">
+        <button class="btn" id="closebtn" style="float:right;">&times;</button>
+
+        <form action="/addnote/{{ user }}" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label><h6>Title</h6></label>
+                <input type="text" name="note_title" class="form-control" placeholder="Type....">
+            </div>
+            <div class="form-group">
+                <label>Sub Title</label>
+                <input type="text" name="note_subtitle" class="form-control" placeholder="Type....">
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea rows="5" name="note_text" placeholder="Type message" class="form-control"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm">Save</button>
+        </form>
+    </div>
+    <!--add note ended-->
+    <div>
+    {% for i in s %}
+    <form action="/savenote/{{ i.id }}" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label><h6>Title</h6></label>
+                <input type="text" name="note_title" value="{{ i.Title }}" class="form-control" placeholder="Type....">
+            </div>
+            <div class="form-group">
+                <label>Sub Title</label>
+                <input type="text" name="note_subtitle" value="{{ i.Subtitle }}" class="form-control" placeholder="Type....">
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea rows="5" name="note_text" placeholder="Type message" class="form-control">{{ i.Description }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm">Change</button>
+        </form>
+        {% endfor %}
+    </div>
+    
+</div>
+{% include "note/footer.html" %}
+{% endblock %}
